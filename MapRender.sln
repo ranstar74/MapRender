@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapRender", "MapRender\MapRender.csproj", "{0238C9B1-82AB-45A9-9881-ABD03BC4678D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|Any CPU = Release|Any CPU
+		Debug|x64 = Debug|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0238C9B1-82AB-45A9-9881-ABD03BC4678D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0238C9B1-82AB-45A9-9881-ABD03BC4678D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0238C9B1-82AB-45A9-9881-ABD03BC4678D}.Debug|x64.ActiveCfg = Debug|x64
+		{0238C9B1-82AB-45A9-9881-ABD03BC4678D}.Debug|x64.Build.0 = Debug|x64
+	EndGlobalSection
+EndGlobal
