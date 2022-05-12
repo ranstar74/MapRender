@@ -47,8 +47,8 @@ public static class Program
 
         // xStart = floor(center.X - width / 512)
         // yStart = floor(center.Y - height / 512)
-        // xNum = width / 256 + 1
-        // yNum = height / 256 + 1
+        // xNum = celling((width + offset) / 256)
+        // xNum = celling((height + offset) / 256)
         // xOffset = mod(center.X - width / 512, 1) * 256
         // yOffset = mod(center.Y - height / 512, 1) * 256
 
