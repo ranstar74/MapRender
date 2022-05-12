@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -15,19 +16,19 @@ namespace MapRender;
 public static class Program
 {
     private static int _downloadCounter;
-    private static readonly DirectoryInfo _cacheDir = new("Cache");
+    private static readonly DirectoryInfo CacheDir = new("Cache");
     private static readonly Dictionary<string, byte[]> CachedImages = new();
 
     public static void Main()
     {
-        _cacheDir.Create();
-        foreach (var fileName in Directory.GetFiles(_cacheDir.FullName))
+        CacheDir.Create();
+        foreach (var fileName in Directory.GetFiles(CacheDir.FullName))
         {
             CachedImages.Add(Path.GetFileName(fileName), File.ReadAllBytes(fileName));
         }
 
         var s = Stopwatch.StartNew();
-        RenderMap(512, 512, new MapPoint(37.617635, 55.755821), 17).Wait();
+        RenderMap(900, 100, new MapPoint(37.617635, 55.755821), 17).Wait();
         s.Stop();
         Console.WriteLine(s.ElapsedMilliseconds / 1000.0);
 
@@ -56,8 +57,8 @@ public static class Program
 
         var (xStart, xOffset) = ((int)Math.Floor(xs), (int)(xs % 1 * 256.0));
         var (yStart, yOffset) = ((int)Math.Floor(ys), (int)(ys % 1 * 256.0));
-        int xNum = (int)(width / 256.0) + 1;
-        int yNum = (int)(height / 256.0) + 1;
+        int xNum = (int)Math.Ceiling((width + xOffset) / 256.0);
+        int yNum = (int)Math.Ceiling((height + yOffset) / 256.0);
 
         List<Task> getImageTask = new();
         for (int x = 0; x < xNum; x++)
@@ -87,8 +88,8 @@ public static class Program
         await Task.WhenAll(getImageTask);
 
         // Export
-        //await using var fs = File.Create(@"C:\Users\falco\Desktop\Map.png");
-        //bitmap.Save(fs, ImageFormat.Png);
+        await using var fs = File.Create(@"C:\Users\User\Desktop\Map.png");
+        bitmap.Save(fs, ImageFormat.Png);
     }
 
     private static int Wrap(int value, int by)
@@ -104,7 +105,7 @@ public static class Program
     private static async Task<Image> GetTileImage(int x, int y, int zoom)
     {
         string name = $"{x}_{y}_{zoom}.png";
-        string fileName = $"{_cacheDir.FullName}/{name}";
+        string fileName = $"{CacheDir.FullName}/{name}";
 
         Stream stream;
         if (CachedImages.ContainsKey(name))
